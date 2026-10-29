@@ -1,0 +1,14 @@
+flowchart TD
+    start([Sign-in attempt]) --> first[Validate first factor on server]
+    first --> firstValid{First factor valid?}
+    firstValid -->|No| deny[Reject sign-in]
+    firstValid -->|Yes| required{Second factor required?}
+    required -->|No| session[Create authenticated session]
+    required -->|Yes| challenge[Present enrolled second-factor challenge]
+    challenge --> available{Factor available?}
+    available -->|Yes| verify[Verify second factor on server]
+    available -->|No| recovery[Recovery path - PRD required]
+    verify --> valid{Proof valid and fresh?}
+    valid -->|Yes| session
+    valid -->|No| failure[Retry or deny according to policy - PRD required]
+    failure -.-> challenge
