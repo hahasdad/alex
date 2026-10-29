@@ -36,3 +36,5 @@ Provide the PRD to replace the provisional diagram with a traceable requirements
 Plain HTML, CSS, and JavaScript. styles.css contains page and responsive styling; layers.css preserves Figma artwork placement; fonts.css references local font files. The decorative desktop composition scales with the viewport. Phone layouts adjust typography, spacing, and ornamental frames for readability; these adaptations were not provided as separate mobile Figma designs.
 
 Checked in Microsoft Edge at desktop and phone widths: all images load, fonts load locally, no horizontal page overflow, navigation and dialog interactions work, and no JavaScript errors were observed. This is a front-end implementation, with no server integration. Additional project content and the film itself remain to be supplied.
+
+Sync test: local changes can be published to GitHub.
