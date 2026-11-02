@@ -1,4 +1,4 @@
-# Hongbo Hao — responsive portfolio
+# Alex — responsive portfolio
 
 Unzip the folder, then open **index.html** in a current browser. No installation, server, build step, or internet connection is required. Keep the HTML, CSS, JavaScript, fonts, and assets together.
 
@@ -10,6 +10,7 @@ Unzip the folder, then open **index.html** in a current browser. No installation
 | about.html | 25:239 | About the King |
 | works.html | 25:247 | Three selected projects |
 | film.html | 25:262 | The Making of a Film |
+| help.html | New | Bilingual How Can I Help offers |
 | 2fa-flowchart.html | Not in Figma | Provisional 2FA diagram |
 
 Source design: https://www.figma.com/design/1OwPNdyXJxj9jeyeU1fqkf/web
@@ -18,7 +19,8 @@ The original Figma artwork is saved locally in assets/. Typography is bundled lo
 
 ## Interactions
 
-- Home, about, works, the H monogram, scroll-to-explore, and back navigate between pages.
+- Home, about, works, help, the A monogram, the homepage call to action, and back links navigate between pages.
+- The help page presents two bilingual offers with native expandable activity details.
 - The film project opens the supplied detail design. The other two projects open accessible dialogs containing only the descriptions supplied in Figma.
 - The film's central play button opens a local video picker. Choose a browser-supported video to play with native playback, seek, volume, and fullscreen controls. Files stay on your device. Escape or the close button closes the dialog and pauses playback.
 - Visible player controls in the original artwork are part of a single supplied PNG. They are preserved as reference artwork; real playback controls appear after selecting a file. No actual film or remote video URL was supplied.
