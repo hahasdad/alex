@@ -1,4 +1,4 @@
-# Alex — responsive portfolio
+# Hongbo Hao — responsive portfolio
 
 Unzip the folder, then open **index.html** in a current browser. No installation, server, build step, or internet connection is required. Keep the HTML, CSS, JavaScript, fonts, and assets together.
 
