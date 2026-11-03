@@ -1,10 +1,40 @@
 'use strict';
+(async()=>{
+const singlePageSite=document.body.classList.contains('single-page-site');
+if(singlePageSite){
+ const sections=[['about','about.html'],['works','works.html'],['film','film.html'],['help','help.html']];
+ const loaded=await Promise.all(sections.map(async([id,url])=>{
+  try{
+   const response=await fetch(url);if(!response.ok)throw new Error(`${response.status} ${url}`);
+   const source=new DOMParser().parseFromString(await response.text(),'text/html');
+   const sourceMain=source.querySelector('main');if(!sourceMain)throw new Error(`Missing main in ${url}`);
+   const section=document.createElement('section');
+   section.className=sourceMain.className;section.id=id;section.innerHTML=sourceMain.innerHTML;
+   section.querySelectorAll('nav[aria-label="Main navigation"],.monogram').forEach(node=>node.remove());
+   const dialogs=[...source.querySelectorAll('dialog')].filter(dialog=>dialog.id!=='project-dialog');
+   return {section,dialogs};
+  }catch(error){console.error('Could not load scroll section:',error);return null;}
+ }));
+ const insertionPoint=document.querySelector('#project-dialog');
+ loaded.filter(Boolean).forEach(({section,dialogs})=>{
+  document.body.insertBefore(section,insertionPoint);
+  dialogs.forEach(dialog=>{if(!document.getElementById(dialog.id))document.body.insertBefore(dialog.cloneNode(true),insertionPoint);});
+ });
+ const routes={'index.html':'#home','about.html':'#about','works.html':'#works','film.html':'#film','help.html':'#help'};
+ document.querySelectorAll('a[href]').forEach(link=>{const route=routes[link.getAttribute('href')];if(route)link.setAttribute('href',route);});
+}
 const mainNav=document.querySelector('nav[aria-label="Main navigation"]');
 if(mainNav){
  const scrollNav=document.createElement('div');scrollNav.className='scroll-nav';
  mainNav.parentNode.insertBefore(scrollNav,mainNav);scrollNav.appendChild(mainNav);
  const scrollToggle=document.createElement('button');scrollToggle.type='button';scrollToggle.className='scroll-nav-toggle';scrollToggle.textContent='ROLL UP ▲';scrollToggle.setAttribute('aria-expanded','true');scrollToggle.setAttribute('aria-label','Roll up navigation');scrollNav.appendChild(scrollToggle);
  scrollToggle.addEventListener('click',()=>{const collapsed=scrollNav.classList.toggle('is-collapsed');scrollToggle.textContent=collapsed?'MENU ▼':'ROLL UP ▲';scrollToggle.setAttribute('aria-expanded',String(!collapsed));scrollToggle.setAttribute('aria-label',collapsed?'Open navigation':'Roll up navigation');});
+}
+if(singlePageSite&&mainNav){
+ const links=[...mainNav.querySelectorAll('a[href^="#"]')];
+ const setCurrent=id=>links.forEach(link=>link.toggleAttribute('aria-current',link.getAttribute('href')===`#${id}`));
+ const observer=new IntersectionObserver(entries=>{const visible=entries.filter(entry=>entry.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];if(visible)setCurrent(visible.target.id);},{rootMargin:'-25% 0px -55% 0px',threshold:[0,.15,.35]});
+ document.querySelectorAll('#home,#about,#works,#film,#help').forEach(section=>observer.observe(section));
 }
 const projectInfo={pc:['Building My First PC','From researching components to assembling the machine, I built my first computer from scratch.'],siege:['Medieval Siege Warfare','I led a team to research medieval siege weapons, build a catapult model, and present our findings.']};
 const projectDialog=document.querySelector('#project-dialog');
@@ -45,3 +75,4 @@ document.addEventListener('pointerdown',startMusicOnFirstInteraction,{once:true,
 document.addEventListener('keydown',startMusicOnFirstInteraction,{once:true,capture:true});
 attemptMusicStart();
 window.addEventListener('pagehide',()=>{sessionStorage.setItem('bgm-time',String(musicAudio.currentTime||0));sessionStorage.setItem('bgm-playing',String(!musicAudio.paused));});
+})();

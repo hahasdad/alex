@@ -77,6 +77,10 @@ body{min-height:100vh}
 .page>div:first-child{background-color:transparent!important;background-image:none!important}
 .page>div:first-child::after{content:"";position:absolute;inset:0;z-index:2;background:url('assets/aged-paper-user.webp?v=paper-bg-3') center/640px 640px repeat;mix-blend-mode:multiply;opacity:.08;pointer-events:none}
 .help-page{background-color:transparent;background-image:none!important}
+.single-page-site{overflow-x:hidden}
+.single-page-site .scroll-nav{position:fixed}
+.single-page-site .page,.single-page-site .help-page{scroll-margin-top:105px}
+.single-page-site #film{margin-top:0}
 .help-offers{gap:58px}
 .help-card{position:relative;isolation:isolate;border:0;background:transparent;box-shadow:none;padding:clamp(72px,6vw,96px) clamp(42px,5vw,74px) clamp(78px,6vw,100px)}
 .help-card::before{content:"";position:absolute;z-index:-1;inset:-22px -28px;background:url('assets/parchment-panel.webp?v=vintage-1') center/100% 100% no-repeat;filter:drop-shadow(0 18px 20px #3d250638);pointer-events:none}
