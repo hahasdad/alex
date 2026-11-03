@@ -63,6 +63,8 @@ const savedVolumeValue=localStorage.getItem('bgm-volume');
 const savedVolume=savedVolumeValue===null?NaN:Number(savedVolumeValue);
 musicAudio.volume=Number.isFinite(savedVolume)&&savedVolume>=0&&savedVolume<=1?savedVolume:1;
 musicVolume.value=String(musicAudio.volume);
+const musicEndTrim=0.5;
+musicAudio.addEventListener('timeupdate',()=>{if(Number.isFinite(musicAudio.duration)&&musicAudio.currentTime>=musicAudio.duration-musicEndTrim){musicAudio.currentTime=0;if(!musicAudio.paused)musicAudio.play().catch(()=>{});}});
 const updateMusicButton=()=>{const playing=!musicAudio.paused;musicPlayer.classList.toggle('is-playing',playing);musicToggle.setAttribute('aria-pressed',String(playing));musicToggle.setAttribute('aria-label',playing?'Pause Greensleeves':'Play Greensleeves');musicAction.textContent=playing?'PAUSE':'PLAY';};
 musicToggle.addEventListener('click',()=>{if(musicAudio.paused){musicAudio.play().catch(()=>{});}else{musicAudio.pause();}updateMusicButton();});
 musicVolume.addEventListener('input',()=>{musicAudio.volume=Number(musicVolume.value);localStorage.setItem('bgm-volume',musicVolume.value);});
