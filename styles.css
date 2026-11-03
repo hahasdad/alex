@@ -70,3 +70,21 @@ html,body,body *{cursor:url('assets/sword-cursor.png?v=user-sword-2') 3 3,defaul
 .music-icon{font:25px/1 'IM FELL English SC',serif;transition:transform .35s ease}.music-player.is-playing .music-icon{transform:rotate(-12deg) scale(1.08)}
 .music-title{font:700 12px/1.2 'Cinzel',serif;letter-spacing:.04em;white-space:nowrap}.music-volume{width:78px;accent-color:#765326}
 @media(max-width:640px){.music-player{left:8px;bottom:8px;gap:7px;min-height:42px;padding:5px 8px 5px 5px}.music-toggle{padding:5px 7px}.music-action,.music-title{display:none}.music-icon{font-size:23px}.music-volume{width:64px}}
+
+/* Aged parchment skin for content surfaces and controls. */
+body{background-color:#c8a979;background-image:url('assets/aged-paper.webp?v=vintage-1');background-size:640px 640px;background-blend-mode:multiply}
+.page>div:first-child::after{content:"";position:absolute;inset:0;z-index:2;background:url('assets/aged-paper.webp?v=vintage-1') center/640px 640px repeat;mix-blend-mode:multiply;opacity:.16;pointer-events:none}
+.help-page{background-image:linear-gradient(180deg,var(--edge),var(--parchment) 16%,#efe2c7 72%,var(--edge)),url('assets/aged-paper.webp?v=vintage-1');background-size:auto,640px 640px;background-blend-mode:multiply}
+.help-offers{gap:58px}
+.help-card{position:relative;isolation:isolate;border:0;background:transparent;box-shadow:none;padding:clamp(72px,6vw,96px) clamp(42px,5vw,74px) clamp(78px,6vw,100px)}
+.help-card::before{content:"";position:absolute;z-index:-1;inset:-22px -28px;background:url('assets/parchment-panel.webp?v=vintage-1') center/100% 100% no-repeat;filter:drop-shadow(0 18px 20px #3d250638);pointer-events:none}
+.help-card details{border-color:#8a6335}
+.home-help-link,.file-label{border:0;background:url('assets/nav-scroll.png') center/100% 100% no-repeat;box-shadow:none;padding:16px 30px}
+.home-help-link:hover{background:url('assets/nav-scroll.png') center/100% 100% no-repeat;filter:brightness(1.06)}
+dialog{border:0;background:transparent url('assets/parchment-panel.webp?v=vintage-1') center/100% 100% no-repeat;padding:88px 76px 92px;filter:drop-shadow(0 20px 32px #140b0470)}
+.music-player{isolation:isolate;border:0;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none;padding:16px 38px 16px 30px}
+.music-player::before{content:"";position:absolute;z-index:-1;inset:-8px -18px;background:url('assets/nav-scroll.png') center/100% 100% no-repeat;filter:drop-shadow(0 7px 10px #24150555);pointer-events:none}
+.music-toggle{border:0;border-radius:0;background:transparent;padding:6px 7px;color:#3e260e;text-shadow:0 1px #f7e7c5}
+.music-title{font-family:'IM FELL English SC','Noto Serif SC',serif;font-size:14px}.music-volume{height:18px;accent-color:#6f481c}.music-volume::-webkit-slider-runnable-track{height:4px;background:#8b6536;border:1px solid #553412}.music-volume::-webkit-slider-thumb{margin-top:-6px}.music-volume::-moz-range-track{height:4px;background:#8b6536;border:1px solid #553412}
+@media(max-width:760px){.help-offers{gap:42px}.help-card{padding:65px 28px 72px}.help-card::before{inset:-12px -10px}}
+@media(max-width:640px){.music-player{padding:12px 24px 12px 20px}.music-player::before{inset:-5px -12px}.home-help-link{padding:14px 25px}}
