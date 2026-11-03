@@ -53,3 +53,13 @@
 
 /* Reuse the homepage sword as the site cursor; touch devices keep their native behavior. */
 html,body,body *{cursor:url('assets/sword-cursor.png') 12 1,default!important}
+
+/* Collapsible medieval scroll navigation (open by default). */
+.scroll-nav{position:absolute;z-index:14;top:8px;right:22px;width:clamp(430px,54vw,760px);height:112px;display:grid;place-items:center;transition:width .38s ease,height .38s ease;isolation:isolate}
+.scroll-nav::before{content:"";position:absolute;inset:0;background:url('assets/nav-scroll.png') center/100% 100% no-repeat;filter:drop-shadow(0 8px 10px #27170655);z-index:-1}
+.page .scroll-nav nav,.help-page .scroll-nav nav{position:static;display:flex;justify-content:center;align-items:center;gap:clamp(20px,2.5vw,42px);padding:0 11% 8px;font:clamp(24px,2.6vw,40px)/1 'Pirata One',serif;opacity:1;visibility:visible;transition:opacity .18s ease .18s;white-space:nowrap}
+.scroll-nav-toggle{position:absolute;left:50%;bottom:9px;transform:translateX(-50%);border:0;background:transparent;color:#3d260f;padding:4px 12px;font:700 10px/1 'Cinzel',serif;letter-spacing:.11em;white-space:nowrap}
+.scroll-nav.is-collapsed{width:132px;height:54px}
+.scroll-nav.is-collapsed nav{opacity:0!important;visibility:hidden!important;pointer-events:none;transition-delay:0s}
+.scroll-nav.is-collapsed .scroll-nav-toggle{bottom:18px;font-size:11px}
+@media(max-width:640px){.scroll-nav{top:10px;right:8px;width:calc(100% - 70px);height:82px}.page .scroll-nav nav,.help-page .scroll-nav nav{gap:14px;padding:0 10% 7px;font-size:18px}.scroll-nav-toggle{bottom:6px;font-size:8px}.scroll-nav.is-collapsed{width:108px;height:48px}.scroll-nav.is-collapsed .scroll-nav-toggle{bottom:16px;font-size:9px}.help-page{padding-top:150px}}

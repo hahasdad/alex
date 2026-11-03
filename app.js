@@ -1,4 +1,11 @@
 'use strict';
+const mainNav=document.querySelector('nav[aria-label="Main navigation"]');
+if(mainNav){
+ const scrollNav=document.createElement('div');scrollNav.className='scroll-nav';
+ mainNav.parentNode.insertBefore(scrollNav,mainNav);scrollNav.appendChild(mainNav);
+ const scrollToggle=document.createElement('button');scrollToggle.type='button';scrollToggle.className='scroll-nav-toggle';scrollToggle.textContent='ROLL UP ▲';scrollToggle.setAttribute('aria-expanded','true');scrollToggle.setAttribute('aria-label','Roll up navigation');scrollNav.appendChild(scrollToggle);
+ scrollToggle.addEventListener('click',()=>{const collapsed=scrollNav.classList.toggle('is-collapsed');scrollToggle.textContent=collapsed?'MENU ▼':'ROLL UP ▲';scrollToggle.setAttribute('aria-expanded',String(!collapsed));scrollToggle.setAttribute('aria-label',collapsed?'Open navigation':'Roll up navigation');});
+}
 const projectInfo={pc:['Building My First PC','From researching components to assembling the machine, I built my first computer from scratch.'],siege:['Medieval Siege Warfare','I led a team to research medieval siege weapons, build a catapult model, and present our findings.']};
 const projectDialog=document.querySelector('#project-dialog');
 document.querySelectorAll('[data-project]').forEach(button=>button.addEventListener('click',()=>{const [title,description]=projectInfo[button.dataset.project];projectDialog.querySelector('h2').textContent=title;projectDialog.querySelector('p').textContent=description;projectDialog.showModal();}));
