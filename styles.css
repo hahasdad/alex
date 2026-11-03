@@ -63,3 +63,10 @@ html,body,body *{cursor:url('assets/sword-cursor.png?v=user-sword-2') 3 3,defaul
 .scroll-nav.is-collapsed nav{opacity:0!important;visibility:hidden!important;pointer-events:none;transition-delay:0s}
 .scroll-nav.is-collapsed .scroll-nav-toggle{bottom:18px;font-size:11px}
 @media(max-width:640px){.scroll-nav{top:10px;right:8px;width:calc(100% - 70px);height:82px}.page .scroll-nav nav,.help-page .scroll-nav nav{gap:14px;padding:0 10% 7px;font-size:18px}.scroll-nav-toggle{bottom:6px;font-size:8px}.scroll-nav.is-collapsed{width:108px;height:48px}.scroll-nav.is-collapsed .scroll-nav-toggle{bottom:16px;font-size:9px}.help-page{padding-top:150px}}
+
+/* Persistent background music controls. */
+.music-player{position:fixed;z-index:30;left:18px;bottom:18px;display:flex;align-items:center;gap:10px;min-height:48px;padding:7px 13px 7px 8px;border:1px solid #6d4b20;border-radius:5px;background:linear-gradient(135deg,#f0e0bded,#d7bd8ded);box-shadow:0 7px 24px #24150559;color:#33200d;backdrop-filter:blur(4px)}
+.music-toggle{display:flex;align-items:center;gap:6px;border:1px solid #765326;border-radius:3px;background:#ead5aa;color:#33200d;padding:7px 9px;font:700 10px/1 'Cinzel',serif;letter-spacing:.08em}
+.music-icon{font:25px/1 'IM FELL English SC',serif;transition:transform .35s ease}.music-player.is-playing .music-icon{transform:rotate(-12deg) scale(1.08)}
+.music-title{font:700 12px/1.2 'Cinzel',serif;letter-spacing:.04em;white-space:nowrap}.music-volume{width:78px;accent-color:#765326}
+@media(max-width:640px){.music-player{left:8px;bottom:8px;gap:7px;min-height:42px;padding:5px 8px 5px 5px}.music-toggle{padding:5px 7px}.music-action,.music-title{display:none}.music-icon{font-size:23px}.music-volume{width:64px}}
