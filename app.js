@@ -40,10 +40,10 @@ if(singlePageSite&&mainNav){
 const translationEntries=[
  ['nav a[href="#home"],nav a[href="index.html"]','首页'],['nav a[href="#about"],nav a[href="about.html"]','关于我'],['nav a[href="#works"],nav a[href="works.html"]','作品'],['nav a[href="#help"],nav a[href="help.html"]','帮助'],
  ['.home .layer-17','自封的最伟大国王'],['.home .layer-18','向下探索 ↓'],['.home-help-link','我能帮你什么？'],
- ['.about .layer-127','关于红博号'],['.about .layer-128','第一章'],['.about .layer-131','我是红博号，一名热爱电影制作、电脑和中世纪历史的学生。'],['.about .layer-132','我喜欢把想法变成现实。我创办了电影社，导演并剪辑过短片，从零组装了自己的第一台电脑，也带领团队研究过中世纪攻城战。'],['.about .layer-133','我喜欢学习新事物、接受挑战，也喜欢把大家聚在一起，创造有意义的作品。'],
+ ['.about .layer-127','关于泓博·郝'],['.about .layer-128','第一章'],['.about .layer-131','我是泓博·郝，一名热爱电影制作、电脑和中世纪历史的学生。'],['.about .layer-132','我喜欢把想法变成现实。我创办了电影社，导演并剪辑过短片，从零组装了自己的第一台电脑，也带领团队研究过中世纪攻城战。'],['.about .layer-133','我喜欢学习新事物、接受挑战，也喜欢把大家聚在一起，创造有意义的作品。'],
  ['.works .layer-151','电影制作与电影社'],['.works .layer-152','组装我的第一台电脑'],['.works .layer-153','中世纪攻城战'],['.works .layer-154','我创办了电影社，并带领团队完成一部短片，担任导演、制片和剪辑。'],['.works .layer-155','从研究配件到组装整机，我从零开始完成了自己的第一台电脑。'],['.works .layer-156','我带领团队研究中世纪攻城武器、制作投石器模型并展示研究成果。'],
  ['.film .layer-173','一部电影的诞生'],['.film .layer-180','一个校园项目如何变成电影社'],['.film .layer-184','I · 开始'],['.film .layer-185','II · 幕后制作'],['.film .layer-186','III · 延续'],['.film .layer-187','一切始于一个校园电影项目。我召集同学一起制作短片，并在过程中创办了电影社。'],['.film .layer-190','我承担了导演、制片、剪辑和选角等多个角色，带领团队从前期策划走到最终剪辑。'],['.film .layer-191','我们完成了短片，但故事并没有结束。电影社在最初项目结束后继续发展。'],
- ['.help-page .help-kicker','第二章'],['.help-page .help-hero h1','我能帮你什么？'],['.help-card:nth-child(1) .help-eyebrow','和我一起拍短片'],['.help-card:nth-child(1) h2','开始你的短片'],['.help-card:nth-child(1) summary','查看活动详情'],['.help-card:nth-child(2) .help-eyebrow','和我一起探索历史'],['.help-card:nth-child(2) h2','走进中世纪世界'],['.help-card:nth-child(2) summary','查看活动详情'],['.help-footer a','进一步了解红博号'],['.note','暂无更多项目资料。'],['#video-dialog h2','播放你的影片']
+ ['.help-page .help-kicker','第二章'],['.help-page .help-hero h1','我能帮你什么？'],['.help-card:nth-child(1) .help-eyebrow','和我一起拍短片'],['.help-card:nth-child(1) h2','开始你的短片'],['.help-card:nth-child(1) summary','查看活动详情'],['.help-card:nth-child(2) .help-eyebrow','和我一起探索历史'],['.help-card:nth-child(2) h2','走进中世纪世界'],['.help-card:nth-child(2) summary','查看活动详情'],['.help-footer a','进一步了解泓博·郝'],['.note','暂无更多项目资料。'],['#video-dialog h2','播放你的影片']
 ];
 const originalMarkup=new WeakMap();
 let currentLanguage=localStorage.getItem('site-language')==='zh'?'zh':'en';
