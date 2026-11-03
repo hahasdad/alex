@@ -87,7 +87,6 @@ body{min-height:100vh}
 .single-page-site{overflow-x:hidden}
 .single-page-site .scroll-nav{position:fixed}
 .single-page-site .page,.single-page-site .help-page{scroll-margin-top:105px}
-.single-page-site #film{margin-top:0}
 .lang-en .help-page [lang="zh-CN"]{display:none!important}
 .lang-zh .help-page .help-intro:not([lang]),.lang-zh .help-page .help-summary:not([lang]),.lang-zh .help-page .help-detail-grid p:not([lang]),.lang-zh .help-page .help-footer>p:not([lang]){display:none!important}
 .lang-zh .help-page [lang="zh-CN"]{display:block}.lang-zh .help-page summary [lang="zh-CN"]{display:inline}
@@ -105,3 +104,4 @@ dialog{border:0;background:transparent url('assets/parchment-panel.webp?v=vintag
 .music-title{font-family:'IM FELL English SC','Noto Serif SC',serif;font-size:14px}.music-volume{height:18px;accent-color:#6f481c}.music-volume::-webkit-slider-runnable-track{height:4px;background:#8b6536;border:1px solid #553412}.music-volume::-webkit-slider-thumb{margin-top:-6px}.music-volume::-moz-range-track{height:4px;background:#8b6536;border:1px solid #553412}
 @media(max-width:760px){.help-offers{gap:42px}.help-card{padding:65px 28px 72px}.help-card::before{inset:-12px -10px}}
 @media(max-width:640px){.music-player{padding:12px 24px 12px 20px}.music-player::before{inset:-5px -12px}.home-help-link{padding:14px 25px}}
+.upload-policy{margin-top:18px;padding:22px 24px;border:1px solid #8b6536;background:#ead5aa99;text-align:center}.upload-policy>span{display:block;font-size:32px;color:#6f481c}.upload-policy strong{display:block;margin:8px 0;font:700 18px 'Cinzel',serif;letter-spacing:.06em}.upload-policy p{font-size:18px}.lang-en .upload-policy [lang="zh-CN"]{display:none}.lang-zh .upload-policy p:not([lang]){display:none}

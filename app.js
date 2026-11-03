@@ -2,12 +2,13 @@
 (async()=>{
 const singlePageSite=document.body.classList.contains('single-page-site');
 if(singlePageSite){
- const sections=[['about','about.html'],['works','works.html'],['film','film.html'],['help','help.html']];
+ const sections=[['about','about.html'],['works','works.html'],['help','help.html']];
  const loaded=await Promise.all(sections.map(async([id,url])=>{
   try{
    const response=await fetch(url);if(!response.ok)throw new Error(`${response.status} ${url}`);
    const source=new DOMParser().parseFromString(await response.text(),'text/html');
    const sourceMain=source.querySelector('main');if(!sourceMain)throw new Error(`Missing main in ${url}`);
+   sourceMain.querySelectorAll('img').forEach(image=>{image.loading='lazy';image.decoding='async';});
    const section=document.createElement('section');
    section.className=sourceMain.className;section.id=id;section.innerHTML=sourceMain.innerHTML;
    section.querySelectorAll('nav[aria-label="Main navigation"],.monogram').forEach(node=>node.remove());
@@ -20,7 +21,7 @@ if(singlePageSite){
   document.body.insertBefore(section,insertionPoint);
   dialogs.forEach(dialog=>{if(!document.getElementById(dialog.id))document.body.insertBefore(dialog.cloneNode(true),insertionPoint);});
  });
- const routes={'index.html':'#home','about.html':'#about','works.html':'#works','film.html':'#film','help.html':'#help'};
+ const routes={'index.html':'#home','about.html':'#about','works.html':'#works','help.html':'#help'};
  document.querySelectorAll('a[href]').forEach(link=>{const route=routes[link.getAttribute('href')];if(route)link.setAttribute('href',route);});
 }
 const mainNav=document.querySelector('nav[aria-label="Main navigation"]');
@@ -35,7 +36,7 @@ if(singlePageSite&&mainNav){
  const links=[...mainNav.querySelectorAll('a[href^="#"]')];
  const setCurrent=id=>links.forEach(link=>link.toggleAttribute('aria-current',link.getAttribute('href')===`#${id}`));
  const observer=new IntersectionObserver(entries=>{const visible=entries.filter(entry=>entry.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];if(visible)setCurrent(visible.target.id);},{rootMargin:'-25% 0px -55% 0px',threshold:[0,.15,.35]});
- document.querySelectorAll('#home,#about,#works,#film,#help').forEach(section=>observer.observe(section));
+ document.querySelectorAll('#home,#about,#works,#help').forEach(section=>observer.observe(section));
 }
 const translationEntries=[
  ['nav a[href="#home"],nav a[href="index.html"]','首页'],['nav a[href="#about"],nav a[href="about.html"]','关于我'],['nav a[href="#works"],nav a[href="works.html"]','作品'],['nav a[href="#help"],nav a[href="help.html"]','帮助'],
@@ -43,7 +44,7 @@ const translationEntries=[
  ['.about .layer-127','关于泓博·郝'],['.about .layer-128','第一章'],['.about .layer-131','我是泓博·郝，一名热爱电影制作、电脑和中世纪历史的学生。'],['.about .layer-132','我喜欢把想法变成现实。我创办了电影社，导演并剪辑过短片，从零组装了自己的第一台电脑，也带领团队研究过中世纪攻城战。'],['.about .layer-133','我喜欢学习新事物、接受挑战，也喜欢把大家聚在一起，创造有意义的作品。'],
  ['.works .layer-151','电影制作与电影社'],['.works .layer-152','组装我的第一台电脑'],['.works .layer-153','中世纪攻城战'],['.works .layer-154','我创办了电影社，并带领团队完成一部短片，担任导演、制片和剪辑。'],['.works .layer-155','从研究配件到组装整机，我从零开始完成了自己的第一台电脑。'],['.works .layer-156','我带领团队研究中世纪攻城武器、制作投石器模型并展示研究成果。'],
  ['.film .layer-173','一部电影的诞生'],['.film .layer-180','一个校园项目如何变成电影社'],['.film .layer-184','I · 开始'],['.film .layer-185','II · 幕后制作'],['.film .layer-186','III · 延续'],['.film .layer-187','一切始于一个校园电影项目。我召集同学一起制作短片，并在过程中创办了电影社。'],['.film .layer-190','我承担了导演、制片、剪辑和选角等多个角色，带领团队从前期策划走到最终剪辑。'],['.film .layer-191','我们完成了短片，但故事并没有结束。电影社在最初项目结束后继续发展。'],
- ['.help-page .help-kicker','第二章'],['.help-page .help-hero h1','我能帮你什么？'],['.help-card:nth-child(1) .help-eyebrow','和我一起拍短片'],['.help-card:nth-child(1) h2','开始你的短片'],['.help-card:nth-child(1) summary','查看活动详情'],['.help-card:nth-child(2) .help-eyebrow','和我一起探索历史'],['.help-card:nth-child(2) h2','走进中世纪世界'],['.help-card:nth-child(2) summary','查看活动详情'],['.help-footer a','进一步了解泓博·郝'],['.note','暂无更多项目资料。'],['#video-dialog h2','播放你的影片']
+ ['.help-page .help-kicker','第二章'],['.help-page .help-hero h1','我能帮你什么？'],['.help-card:nth-child(1) .help-eyebrow','和我一起拍短片'],['.help-card:nth-child(1) h2','开始你的短片'],['.help-card:nth-child(1) summary','查看活动详情'],['.help-card:nth-child(2) .help-eyebrow','和我一起探索历史'],['.help-card:nth-child(2) h2','走进中世纪世界'],['.help-card:nth-child(2) summary','查看活动详情'],['.help-footer a','进一步了解泓博·郝'],['.note','暂无更多项目资料。'],['#video-dialog h2','电影播放器'],['#video-dialog .upload-policy strong','仅限站长管理']
 ];
 const originalMarkup=new WeakMap();
 let currentLanguage=localStorage.getItem('site-language')==='zh'?'zh':'en';
@@ -68,18 +69,14 @@ document.querySelectorAll('[data-project]').forEach(button=>button.addEventListe
 document.querySelectorAll('dialog').forEach(dialog=>{dialog.querySelector('.close').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});});
 const videoDialog=document.querySelector('#video-dialog');
 if(videoDialog){
- const video=videoDialog.querySelector('video');let videoUrl;
- document.querySelector('.video-trigger').addEventListener('click',()=>videoDialog.showModal());
- videoDialog.addEventListener('close',()=>video.pause());
- document.querySelector('#video-file').addEventListener('change',event=>{const file=event.target.files[0];if(!file)return;if(videoUrl)URL.revokeObjectURL(videoUrl);videoUrl=URL.createObjectURL(file);video.src=videoUrl;video.hidden=false;document.querySelector('#video-status').textContent=file.name;video.play().catch(()=>{});});
- video.addEventListener('error',()=>document.querySelector('#video-status').textContent='This video format could not be played. Please choose another video.');
- window.addEventListener('pagehide',()=>{if(videoUrl)URL.revokeObjectURL(videoUrl);});
+ const videoTrigger=document.querySelector('.video-trigger');
+ if(videoTrigger)videoTrigger.addEventListener('click',()=>videoDialog.showModal());
 }
 
 const musicPlayer=document.createElement('section');
 musicPlayer.className='music-player';
 musicPlayer.setAttribute('aria-label','Background music player');
-musicPlayer.innerHTML='<audio class="music-audio" src="assets/greensleeves.mp3" preload="auto" autoplay loop></audio><button class="music-toggle" type="button" aria-pressed="false" aria-label="Play Greensleeves"><span class="music-icon" aria-hidden="true">♪</span><span class="music-action">PLAY</span></button><span class="music-title">Greensleeves · 绿袖子</span><label class="music-volume-label"><span class="sr-only">Music volume</span><input class="music-volume" type="range" min="0" max="1" step="0.05" value="1" aria-label="Music volume"></label>';
+musicPlayer.innerHTML='<audio class="music-audio" src="assets/greensleeves.mp3" preload="metadata" autoplay loop></audio><button class="music-toggle" type="button" aria-pressed="false" aria-label="Play Greensleeves"><span class="music-icon" aria-hidden="true">♪</span><span class="music-action">PLAY</span></button><span class="music-title">Greensleeves · 绿袖子</span><label class="music-volume-label"><span class="sr-only">Music volume</span><input class="music-volume" type="range" min="0" max="1" step="0.05" value="1" aria-label="Music volume"></label>';
 document.body.appendChild(musicPlayer);
 const musicAudio=musicPlayer.querySelector('.music-audio');
 const musicToggle=musicPlayer.querySelector('.music-toggle');

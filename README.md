@@ -21,9 +21,9 @@ The original Figma artwork is saved locally in assets/. Typography is bundled lo
 
 - Home, about, works, help, the A monogram, the homepage call to action, and back links navigate between pages.
 - The help page presents two bilingual offers with native expandable activity details.
-- The film project opens the supplied detail design. The other two projects open accessible dialogs containing only the descriptions supplied in Figma.
-- The film's central play button opens a local video picker. Choose a browser-supported video to play with native playback, seek, volume, and fullscreen controls. Files stay on your device. Escape or the close button closes the dialog and pauses playback.
-- Visible player controls in the original artwork are part of a single supplied PNG. They are preserved as reference artwork; real playback controls appear after selecting a file. No actual film or remote video URL was supplied.
+- The long scrolling homepage includes Home, About, Works, and Help. The film project is deliberately excluded and opens only from the first card in Works.
+- The film's central play button opens an owner-controlled media notice. There is no public file input or upload path; only the repository owner can add or replace a film asset.
+- Visible player controls in the original artwork are part of a single supplied PNG. They are preserved as reference artwork. No actual film or remote video URL was supplied.
 
 ## Missing PRD and provisional 2FA diagram
 
