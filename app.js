@@ -73,5 +73,5 @@ if(videoDialog){
  if(videoTrigger)videoTrigger.addEventListener('click',()=>videoDialog.showModal());
 }
 
-await import('./candle.js?v=candle-2');
+await import('./candle.js?v=candle-3');
 })();

@@ -31,6 +31,7 @@ volume.value = String(targetVolume);
 const startOffset = 0.7;
 const endTrim = 1.5;
 let lit = false;
+let musicWanted = false;
 let everLit = false;
 let revision = 0;
 let pauseTimer;
@@ -42,10 +43,10 @@ let mediaSource;
 function updateLabels() {
   const zh = document.documentElement.lang.startsWith('zh');
   const action = zh ? (lit ? '熄灭烛火' : '点亮烛火') : (lit ? 'Extinguish the flame' : 'Light the candle');
-  toggle.setAttribute('aria-label', zh ? (lit ? '暂停绿袖子' : '播放绿袖子') : (lit ? 'Pause Greensleeves' : 'Play Greensleeves'));
-  toggle.setAttribute('aria-pressed', String(lit));
-  player.querySelector('.music-action').textContent = zh ? (lit ? '暂停' : '播放') : (lit ? 'PAUSE' : 'PLAY');
-  player.classList.toggle('is-playing', lit);
+  toggle.setAttribute('aria-label', zh ? (musicWanted ? '暂停绿袖子' : '播放绿袖子') : (musicWanted ? 'Pause Greensleeves' : 'Play Greensleeves'));
+  toggle.setAttribute('aria-pressed', String(musicWanted));
+  player.querySelector('.music-action').textContent = zh ? (musicWanted ? '暂停' : '播放') : (musicWanted ? 'PAUSE' : 'PLAY');
+  player.classList.toggle('is-playing', musicWanted);
   if (!candle) return;
   candleButton.setAttribute('aria-pressed', String(lit));
   candle.querySelector('.candle-label').textContent = action;
@@ -73,29 +74,27 @@ function positionAudio() {
 }
 function scheduleLoop() {
   clearTimeout(loopTimer);
-  if (!lit || audio.paused || !Number.isFinite(audio.duration)) return;
+  if (!musicWanted || audio.paused || !Number.isFinite(audio.duration)) return;
   const remaining = audio.duration - endTrim - audio.currentTime;
   loopTimer = setTimeout(() => {
-    if (!lit) return;
+    if (!musicWanted) return;
     if (audio.currentTime >= audio.duration - endTrim - 0.03) audio.currentTime = startOffset;
     scheduleLoop();
   }, Math.max(30, remaining * 1000));
 }
-async function changeFlame() {
+async function setMusicPlaying(playingWanted) {
   const operation = ++revision;
   clearTimeout(pauseTimer);
   clearTimeout(loopTimer);
-  lit = !lit;
-  if (!lit) {
-    paint();
+  musicWanted = playingWanted;
+  updateLabels();
+  if (!musicWanted) {
     fadeTo(0, 0.5);
     pauseTimer = setTimeout(() => {
-      if (revision === operation && !lit) audio.pause();
+      if (revision === operation && !musicWanted) audio.pause();
     }, 520);
     return;
   }
-  everLit = true;
-  paint();
   try {
     if (!audioContext) {
       audioContext = new AudioContext();
@@ -114,35 +113,45 @@ async function changeFlame() {
     scheduleLoop();
   } catch (error) {
     if (revision !== operation) return;
-    lit = false;
+    musicWanted = false;
     audio.pause();
-    paint();
+    updateLabels();
     if (candle) candle.querySelector('.candle-status').textContent = document.documentElement.lang.startsWith('zh') ? '音乐暂时无法播放，请再次点击重试。' : 'Music could not start. Please click to try again.';
     console.warn('Music playback failed', error);
   }
+}
+function changeFlame() {
+  lit = !lit;
+  everLit = everLit || lit;
+  paint();
+  if (lit) setMusicPlaying(true);
 }
 audio.addEventListener('loadedmetadata', positionAudio);
 audio.addEventListener('playing', scheduleLoop);
 audio.addEventListener('seeked', scheduleLoop);
 audio.addEventListener('timeupdate', () => {
-  if (lit && Number.isFinite(audio.duration) && audio.currentTime >= audio.duration - endTrim) {
+  if (musicWanted && Number.isFinite(audio.duration) && audio.currentTime >= audio.duration - endTrim) {
     audio.currentTime = startOffset;
   }
 });
 audio.addEventListener('ended', () => {
-  if (lit) { audio.currentTime = startOffset; audio.play().catch(() => { lit = false; paint(); }); }
+  if (musicWanted) {
+    audio.currentTime = startOffset;
+    setMusicPlaying(true);
+  }
 });
 volume.addEventListener('input', () => {
   targetVolume = Number(volume.value);
   localStorage.setItem('bgm-volume', volume.value);
-  if (lit) fadeTo(targetVolume, 0.05);
+  if (musicWanted) fadeTo(targetVolume, 0.05);
 });
-toggle.addEventListener('click', changeFlame);
+toggle.addEventListener('click', () => setMusicPlaying(!musicWanted));
 candleButton?.addEventListener('click', changeFlame);
 new MutationObserver(updateLabels).observe(document.documentElement, {attributes:true, attributeFilter:['lang']});
 window.addEventListener('pagehide', () => {
   ++revision;
   lit = false;
+  musicWanted = false;
   clearTimeout(pauseTimer);
   clearTimeout(loopTimer);
   audio.pause();
