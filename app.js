@@ -73,5 +73,9 @@ if(videoDialog){
  if(videoTrigger)videoTrigger.addEventListener('click',()=>videoDialog.showModal());
 }
 
-await import('./candle.js?v=candle-3');
+await import('./candle.js?v=candle-4');
+if (singlePageSite) {
+ const { initFilmView } = await import('./film-view.js?v=film-1');
+ initFilmView(() => applyLanguage(currentLanguage));
+}
 })();

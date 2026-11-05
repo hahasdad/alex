@@ -1,5 +1,5 @@
 @import url('layers.css');
-@import url('candle.css?v=candle-3');
+@import url('candle.css?v=candle-4');
 :root{--parchment:#e9d9b8;--edge:#d2b88f;--ink:#17130b;--gold:#86632a}*{box-sizing:border-box}html{background:var(--edge);scroll-behavior:smooth}body{margin:0;color:var(--ink)}p,h1,h2{margin:0}a{color:inherit;text-decoration:none}button,input{font:inherit}button,a,label{touch-action:manipulation}a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #5a3516;outline-offset:5px}button{cursor:pointer}img{user-select:none}.page{container-type:inline-size;position:relative;width:100%;max-width:1800px;margin:auto;overflow:hidden;height:55.555556vw;max-height:1000px}.page>div:first-child{height:100%;background:linear-gradient(var(--edge),var(--parchment) 50%,var(--edge))}.page.home>div:first-child{background:linear-gradient(var(--parchment),var(--edge))}.page.film{height:104.166667vw;max-height:1875px}nav{position:absolute;z-index:3;display:flex;gap:2.8cqw;top:3.61cqw;right:7.1cqw;font:3.333333cqw 'Pirata One',serif;line-height:1.15}nav a:hover{text-decoration:underline;text-underline-offset:6px}.monogram{position:absolute;z-index:3;left:5.55cqw;top:2.77cqw;font:700 3.333333cqw 'UnifrakturCook',serif}.works nav{top:.97cqw}.works .monogram{top:.55cqw;left:3.47cqw}.home h1,.home [data-node-id="25:198"]{-webkit-text-stroke:.22cqw #fff;paint-order:stroke fill}.home [data-node-id="25:199"]{z-index:4}.home [data-node-id="25:199"]:hover{text-decoration:underline}.home-help-link{position:absolute;z-index:5;right:5.5cqw;bottom:3.1cqw;padding:.75cqw 1.1cqw;border:1px solid #5a3516;background:#ead8b2e8;font:700 clamp(11px,.9cqw,16px)/1.2 'Cinzel',serif;letter-spacing:.05em;box-shadow:0 6px 18px #56391220}.home-help-link:hover{background:#f2e4c6;text-decoration:underline;text-underline-offset:4px}.work-link{position:absolute;z-index:3;left:1%;width:98%;height:17.014cqw;border:0;background:transparent}.work-link:hover{background:#fff1}.work-one{top:4.792cqw}.work-two{top:21.806cqw}.work-three{top:38.819cqw}.works [data-node-id="25:259"] img,.works [data-node-id="25:260"] img,.works [data-node-id="25:261"] img{width:auto;height:auto;max-width:none;transform:scale(calc(100 / 1440));transform-origin:left center}
 /* The SVG's intrinsic 101 × 16 geometry is preserved; its wrapper scales with the page. */
 .works [data-node-id="25:259"],.works [data-node-id="25:260"],.works [data-node-id="25:261"]{scale:1}.works [data-node-id="25:259"] img,.works [data-node-id="25:260"] img,.works [data-node-id="25:261"] img{transform:none}
@@ -23,7 +23,7 @@
  .film [data-node-id="25:280"],.film [data-node-id="25:289"],.film [data-node-id="25:306"]{position:static}.film [data-node-id="25:280"]>*,.film [data-node-id="25:289"]>*,.film [data-node-id="25:306"]>*{margin-top:0}
 }
 @media(max-width:640px){
- .home>div:first-child{top:max(120px,20vh);height:55.56cqw;min-height:0;overflow:hidden;background:transparent!important}.home>div:first-child>div{margin-top:0}.home{background:linear-gradient(var(--parchment),var(--edge))}.home h1{top:20cqw}.home [data-node-id="25:198"]{top:34cqw}.home [data-node-id="25:199"]{top:calc(max(120px,20vh) + 60cqw)}
+ .home>div:first-child{top:max(120px,20vh);height:55.56cqw;min-height:0;overflow:hidden;background:transparent!important}.home>div:first-child>div{margin-top:0}.home{background:transparent}.home h1{top:20cqw}.home [data-node-id="25:198"]{top:34cqw}.home [data-node-id="25:199"]{top:calc(max(120px,20vh) + 60cqw)}
 }
 @media(max-width:360px){.about{height:1030px}.about [data-node-id="25:240"]{height:850px}.about [data-node-id="25:242"]{font-size:36px}.about [data-node-id="25:246"]{top:805px}.about [data-node-id="35:11"],.about [data-node-id="35:15"]{top:850px}.film [data-node-id="25:271"],.film [data-node-id="25:272"],.film [data-node-id="25:273"]{font-size:15px;line-height:1.35}.works h2{font-size:23px}.works p{font-size:13px}}
 @media(max-width:640px){.home>div:first-child{top:max(100px,14vh);transform:scale(1.5);transform-origin:50% 0}.home [data-node-id="25:199"]{top:calc(max(100px,14vh) + 90cqw)}}
@@ -83,7 +83,7 @@ html,body,body *{cursor:url('assets/sword-cursor.png?v=user-sword-2') 3 3,defaul
 html,body{min-height:100%;background-color:#d0aa70;background-image:url('assets/aged-paper-user.webp?v=paper-bg-4');background-position:top center;background-size:100% auto;background-repeat:repeat-y;background-attachment:scroll}
 body{min-height:100vh}
 .page>div:first-child{background-color:transparent!important;background-image:none!important}
-.page>div:first-child::after{content:"";position:absolute;inset:0;z-index:2;background:url('assets/aged-paper-user.webp?v=paper-bg-3') center/640px 640px repeat;mix-blend-mode:multiply;opacity:.08;pointer-events:none}
+.page>div:first-child::after{content:none}
 .help-page{background-color:transparent;background-image:none!important}
 .single-page-site{overflow-x:hidden}
 .single-page-site .scroll-nav{position:fixed}
@@ -91,7 +91,7 @@ body{min-height:100vh}
 .lang-en .help-page [lang="zh-CN"]{display:none!important}
 .lang-zh .help-page .help-intro:not([lang]),.lang-zh .help-page .help-summary:not([lang]),.lang-zh .help-page .help-detail-grid p:not([lang]),.lang-zh .help-page .help-footer>p:not([lang]){display:none!important}
 .lang-zh .help-page [lang="zh-CN"]{display:block}.lang-zh .help-page summary [lang="zh-CN"]{display:inline}
-@media(max-width:640px){.language-settings-button{right:7%;top:23px;width:28px;height:28px;font-size:17px}.language-menu{right:0;top:66px;width:174px}.single-page-site #home,.single-page-site #home>div:first-child{background-color:#d0aa70!important;background-image:url('assets/aged-paper-user.webp?v=paper-bg-4')!important;background-position:top center!important;background-size:100% auto!important;background-repeat:repeat-y!important}}
+@media(max-width:640px){.language-settings-button{right:7%;top:23px;width:28px;height:28px;font-size:17px}.language-menu{right:0;top:66px;width:174px}}
 .help-offers{gap:58px}
 .help-card{position:relative;isolation:isolate;border:0;background:transparent;box-shadow:none;padding:clamp(72px,6vw,96px) clamp(42px,5vw,74px) clamp(78px,6vw,100px)}
 .help-card::before{content:"";position:absolute;z-index:-1;inset:-22px -28px;background:url('assets/parchment-panel.webp?v=vintage-1') center/100% 100% no-repeat;filter:drop-shadow(0 18px 20px #3d250638);pointer-events:none}

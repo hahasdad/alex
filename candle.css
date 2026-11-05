@@ -18,12 +18,11 @@ body.candle-ready:not(.candle-room-lit) .candle-scene { color: #f2d6a0; }
 body.candle-ready:not(.candle-room-lit) .candle-art { filter: drop-shadow(0 0 16px #d7b78355); }
 body.candle-ready .music-player { z-index: 52; transition: filter 3s ease; }
 body.candle-ready:not(.candle-room-lit) .music-player { filter: brightness(.05); }
-#home::after {
-  content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
-  background: radial-gradient(ellipse at 15% 70%, #ffc35770, transparent 65%);
-  opacity: 0; transition: opacity 3s ease;
-}
-#home.candle-lit::after { opacity: 1; }
+/* All views share the body's parchment. Only the candle itself casts a local glow. */
+.single-page-site > .page[hidden],
+.single-page-site > .help-page[hidden] { display: none !important; }
+body.candle-ready.film-view::after { opacity: 0; }
+body.candle-ready.film-view .music-player { filter: none; }
 .candle-scene { position: absolute; z-index: 6; left: 3%; top: 36%; width: 20%; text-align: center; color: #3a230e; }
 .candle-button { display: inline-flex; align-items: center; flex-direction: column; border: 0; background: transparent; color: inherit; padding: 12px; }
 @media (hover: hover) and (pointer: fine) {
