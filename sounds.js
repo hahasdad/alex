@@ -68,6 +68,34 @@ function rustle(duration, frequency, volume, delay = 0, paper = false, output = 
   source.start(start);
   source.stop(start + duration + 0.02);
 }
+function turnPage() {
+  const start = context.currentTime;
+  const page = context.createBufferSource();
+  const softness = context.createBiquadFilter();
+  const body = context.createBiquadFilter();
+  const envelope = context.createGain();
+  page.buffer = noiseBuffer;
+  softness.type = 'lowpass';
+  softness.frequency.value = 1900;
+  body.type = 'highpass';
+  body.frequency.value = 180;
+  // A page lifts, sweeps through the air, then settles against the book.
+  softness.frequency.setValueAtTime(650, start);
+  softness.frequency.exponentialRampToValueAtTime(1900, start + 0.14);
+  softness.frequency.exponentialRampToValueAtTime(450, start + 0.4);
+  envelope.gain.setValueAtTime(0, start);
+  envelope.gain.linearRampToValueAtTime(0.05, start + 0.035);
+  envelope.gain.linearRampToValueAtTime(0.28, start + 0.13);
+  envelope.gain.linearRampToValueAtTime(0.1, start + 0.23);
+  envelope.gain.linearRampToValueAtTime(0.16, start + 0.29);
+  envelope.gain.exponentialRampToValueAtTime(0.0001, start + 0.44);
+  page.connect(softness).connect(body).connect(envelope).connect(master);
+  track(page, [softness, body, envelope]);
+  page.start(start, Math.random() * 0.4);
+  page.stop(start + 0.46);
+  rustle(0.045, 1000, 0.1, 0.025);
+  tone(190, 0.09, 0.05, 0.31, 95);
+}
 export function stopCharge() {
   if (!chargeGain) return;
   const previous = chargeGain;
@@ -82,9 +110,9 @@ export function playSound(name) {
     prepareAudio();
     switch (name) {
       case 'paper':
-        if (performance.now() - lastPaper < 70) return;
+        if (performance.now() - lastPaper < 130) return;
         lastPaper = performance.now();
-        rustle(0.28, 2100, 0.2, 0, true);
+        turnPage();
         break;
       case 'ignite':
         rustle(0.48, 1150, 0.24);

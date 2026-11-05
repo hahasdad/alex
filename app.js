@@ -74,8 +74,8 @@ if(videoDialog){
 }
 
 await import('./candle.js?v=sfx-1');
-await import('./sounds.js?v=sfx-1');
-await import('./duel.js?v=sfx-1');
+await import('./sounds.js?v=page-turn-2');
+await import('./duel.js?v=page-turn-2');
 if (singlePageSite) {
  const { initFilmView } = await import('./film-view.js?v=film-1');
  initFilmView(() => applyLanguage(currentLanguage));

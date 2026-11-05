@@ -1,4 +1,4 @@
-import { playSound, stopCharge, registerSoundToggle } from './sounds.js?v=sfx-1';
+import { playSound, stopCharge, registerSoundToggle } from './sounds.js?v=page-turn-2';
 const works = document.querySelector('#works, main.works');
 if (works) {
   const words = {
