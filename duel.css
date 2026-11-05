@@ -23,6 +23,8 @@
 .duel-dialog p { margin: 0; }
 .duel-dialog .duel-eyebrow { font: 12px/1.4 'Cinzel',serif; }
 .duel-dialog #duel-rules { font: 16px/1.5 'Cormorant Garamond',serif; max-width: 620px; margin: 0 auto 18px; }
+.duel-key-hints { display: flex; justify-content: center; gap: 28px; margin: 0 0 16px; font: 700 14px/1.5 'Cinzel',serif; }
+.duel-key-hints kbd { display: inline-block; padding: 3px 10px; margin-right: 6px; border: 1px solid #856038; border-bottom-width: 3px; border-radius: 4px; background: #f4e3bc; font: inherit; }
 .duel-close { position: absolute; right: 12px; top: 6px; width: 44px; height: 44px; font-size: 30px; border: 0; background: transparent; color: #4b321e; }
 .duel-scoreboard { display: flex; align-items: center; justify-content: space-between; gap: 12px; font: 17px 'Cinzel',serif; padding: 10px 18px; border-block: 1px solid #88663880; }
 .duel-scoreboard strong { display: inline-block; margin-left: 10px; font-size: 28px; }
@@ -41,6 +43,7 @@
 .duel-signal,.duel-clash { position: absolute; left: 50%; top: 22%; transform: translateX(-50%); font-size: 66px; line-height: 1; opacity: 0; color: #98610c; text-shadow: 0 0 10px #fff6ad; }
 .duel-clash { top: 42%; font-size: 95px; pointer-events: none; }
 [data-phase="warning"] .duel-rival .rabbit-blade { transform: rotate(-25deg); }
+[data-phase="warning"] .duel-rival { filter: drop-shadow(0 0 5px #86bfc4); }
 [data-phase="strike"] .duel-signal { opacity: 1; }
 [data-phase="strike"] .duel-rival { translate: -15px 0; }
 [data-phase="strike"] .duel-rival .rabbit-blade { transform: rotate(24deg); filter: drop-shadow(0 0 6px #ffc43e); }
@@ -48,6 +51,13 @@
 [data-phase="result"][data-outcome="hit"] .duel-clash { opacity: 1; }
 [data-phase="result"][data-outcome="hit"] .duel-rival { translate: 18px -8px; }
 [data-phase="result"][data-outcome="hit"] .duel-rival .rabbit-head { transform: rotate(-15deg); }
+[data-phase="result"][data-outcome="attackHit"] .duel-you { translate: 25px 0; }
+[data-phase="result"][data-outcome="attackHit"] .duel-you .rabbit-blade { transform: rotate(48deg); }
+[data-phase="result"][data-outcome="attackHit"] .duel-rival { translate: 28px -8px; }
+[data-phase="result"][data-outcome="attackHit"] .duel-rival .rabbit-head { transform: rotate(-18deg); }
+[data-phase="result"][data-outcome="blocked"] .duel-you,
+[data-phase="result"][data-outcome="exposed"] .duel-you { translate: -18px -8px; }
+[data-phase="result"][data-outcome="blocked"] .duel-clash { opacity: 1; }
 [data-phase="result"][data-outcome="early"] .duel-you,
 [data-phase="result"][data-outcome="late"] .duel-you { translate: -18px -8px; }
 [data-phase="result"][data-outcome="early"] .duel-you .rabbit-head,
@@ -56,10 +66,12 @@
 [data-phase="ended"][data-outcome="win"] .duel-rival .rabbit-head { transform: rotate(17deg); }
 [data-phase="ended"][data-outcome="lose"] .duel-rival .rabbit-blade { transform: rotate(-35deg); }
 .duel-dialog .duel-message { min-height: 52px; display: grid; place-items: center; font: 600 19px/1.4 'Cormorant Garamond',serif; }
-.duel-controls { display: flex; justify-content: center; padding: 12px 0 4px; }
+.duel-controls { display: flex; justify-content: center; gap: 18px; padding: 12px 0 4px; }
 .duel-controls [hidden] { display: none; }
-.duel-parry { min-width: 185px; touch-action: manipulation; }
-.duel-parry[aria-disabled="true"] { opacity: .6; }
+.duel-parry,.duel-attack { min-width: 120px; touch-action: manipulation; }
+.duel-attack { background: #794335; }
+.duel-attack:hover { background: #925543; }
+.duel-parry[aria-disabled="true"],.duel-attack[aria-disabled="true"] { opacity: .6; }
 .film-view .duel-invite { display: none; }
 @media(max-width:640px) {
   .duel-invite { margin: 20px 18px 48px; padding: 24px 14px; gap: 16px; flex-wrap: wrap; }
@@ -76,6 +88,8 @@
   .duel-you { left: 4%; }.duel-rival { right: 4%; }
   .duel-dialog .duel-message { font-size: 17px; min-height: 50px; }
   .duel-signal { font-size: 50px; }
+  .duel-controls { gap: 14px; }
+  .duel-parry,.duel-attack { min-width: 0; flex: 1; max-width: 170px; padding: 12px 10px; }
 }
 @media(max-height:650px) and (min-width:641px) {
   .duel-dialog { padding: 16px 28px; }

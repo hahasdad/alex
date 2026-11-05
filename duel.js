@@ -3,13 +3,16 @@ if (works) {
   const words = {
     en: {
       kicker: 'A CHALLENGE AT COURT', title: 'The Rabbit Knights',
-      intro: 'Two tiny knights. One well-timed parry. Care for a duel?',
+      intro: 'Two tiny knights. Attack the opening or parry the blade. Care for a duel?',
       open: 'Challenge me', close: 'Close the game', start: 'Begin the duel', again: 'Duel again',
-      rules: 'Wait for the golden flash, then press Space or tap PARRY. First to 3 points wins · 30 seconds.',
-      you: 'You', rival: 'Sir Hops', parry: 'PARRY', resume: 'Resume duel',
+      rules: 'Attack while Sir Hops raises his sword, or defend at the golden flash. First to 3 points wins · 30 seconds.',
+      you: 'You', rival: 'Sir Hops', parry: 'DEFEND', attack: 'ATTACK', space: 'Space', resume: 'Resume duel',
       idle: 'Salute your opponent. Ready when you are.',
-      waiting: 'Watch the sword…', warning: 'Steady… wait for gold!', strike: 'NOW — PARRY!',
+      waiting: 'His guard is up. Wait for an opening…', warning: 'An opening! J to attack — or wait to defend.', strike: 'GOLD! Space to defend!',
       hit: 'Clang! A perfect parry. Your counterattack scores.',
+      attackHit: 'A clean thrust! You seized the opening and scored.',
+      blocked: 'His guard stopped your attack. Sir Hops counters and scores.',
+      exposed: 'You attacked into his strike! Sir Hops scores.',
       early: 'Too soon! Sir Hops slipped past your guard.',
       late: 'A little late! Sir Hops takes the point.',
       win: 'Victory! Sir Hops bows to the new champion.',
@@ -19,13 +22,16 @@ if (works) {
     },
     zh: {
       kicker: '庭院比武', title: '盔甲兔子击剑',
-      intro: '两只小骑士，一次恰到好处的格挡。来比试一下？',
+      intro: '两只小骑士，抓住破绽进攻，看准时机防御。来比试一下？',
       open: '来决斗吧', close: '关闭小游戏', start: '开始决斗', again: '再来一局',
-      rules: '等剑上闪出金光，再按空格或点「格挡」。先得 3 分获胜，每局最多 30 秒。',
-      you: '你', rival: '蹦蹦骑士', parry: '格挡', resume: '继续决斗',
+      rules: '对手举剑时可以抢攻，金光亮起时要防御。先得 3 分获胜，每局最多 30 秒。',
+      you: '你', rival: '蹦蹦骑士', parry: '防御', attack: '进攻', space: '空格', resume: '继续决斗',
       idle: '先向对手行礼。准备好了就开始。',
-      waiting: '看好对手的剑……', warning: '稳住……等金光！', strike: '就是现在——格挡！',
+      waiting: '对手正在防守，等待破绽……', warning: '出现破绽！按 J 抢攻，或等金光防御。', strike: '金光亮了！按空格防御！',
       hit: '锵！格挡成功，自动反击得一分。',
+      attackHit: '突刺命中！你抓住破绽，主动进攻得一分。',
+      blocked: '对手挡住了你的进攻，反击得一分。',
+      exposed: '撞上对手的攻击了！这时应该防御，对手得分。',
       early: '出手太早啦！蹦蹦骑士趁机得分。',
       late: '稍微晚了一点！蹦蹦骑士得分。',
       win: '你赢了！蹦蹦骑士向新冠军鞠躬。',
@@ -83,6 +89,7 @@ if (works) {
   dialog.innerHTML = `<button class="duel-close" type="button">×</button>
     <p class="duel-eyebrow" data-duel-text="kicker"></p><h2 id="duel-title" data-duel-text="title"></h2>
     <p id="duel-rules" data-duel-text="rules"></p>
+    <div class="duel-key-hints"><span><kbd>J</kbd> <span data-duel-text="attack"></span></span><span><kbd data-duel-text="space"></kbd> <span data-duel-text="parry"></span></span></div>
     <div class="duel-scoreboard"><span><span data-duel-text="you"></span> <strong class="duel-your-score">0</strong></span><span class="duel-clock">30 s</span><span><span data-duel-text="rival"></span> <strong class="duel-rival-score">0</strong></span></div>
     <div class="duel-arena" data-phase="idle">
       <span class="duel-banner duel-banner-left" aria-hidden="true">♜</span><span class="duel-banner duel-banner-right" aria-hidden="true">♜</span>
@@ -90,11 +97,12 @@ if (works) {
       <div class="duel-knight duel-you">${rabbit('player')}</div><div class="duel-knight duel-rival">${rabbit('rival')}</div>
     </div>
     <p class="duel-message" role="status" aria-live="polite"></p>
-    <div class="duel-controls"><button type="button" class="duel-start duel-button"></button><button type="button" class="duel-parry duel-button" data-duel-text="parry" hidden></button><button type="button" class="duel-resume duel-button" data-duel-text="resume" hidden></button></div>`;
+    <div class="duel-controls"><button type="button" class="duel-start duel-button"></button><button type="button" class="duel-attack duel-button" data-duel-text="attack" aria-keyshortcuts="j" hidden></button><button type="button" class="duel-parry duel-button" data-duel-text="parry" aria-keyshortcuts="Space" hidden></button><button type="button" class="duel-resume duel-button" data-duel-text="resume" hidden></button></div>`;
   document.body.append(dialog);
   const arena = dialog.querySelector('.duel-arena');
   const startButton = dialog.querySelector('.duel-start');
   const parryButton = dialog.querySelector('.duel-parry');
+  const attackButton = dialog.querySelector('.duel-attack');
   const resumeButton = dialog.querySelector('.duel-resume');
   const closeButton = dialog.querySelector('.duel-close');
   let phase = 'idle';
@@ -121,6 +129,8 @@ if (works) {
     startButton.hidden = running;
     parryButton.hidden = !running || Boolean(pausedAt);
     parryButton.setAttribute('aria-disabled', String(phase === 'result'));
+    attackButton.hidden = parryButton.hidden;
+    attackButton.setAttribute('aria-disabled', String(phase === 'result'));
     resumeButton.hidden = !pausedAt;
     arena.dataset.phase = pausedAt ? 'paused' : phase;
     arena.dataset.outcome = message;
@@ -140,7 +150,7 @@ if (works) {
     render();
   }
   function scorePoint(outcome, now) {
-    if (outcome === 'hit') yourScore++;
+    if (outcome === 'hit' || outcome === 'attackHit') yourScore++;
     else rivalScore++;
     phase = 'result';
     message = outcome;
@@ -159,7 +169,7 @@ if (works) {
       if (phase === 'waiting') {
         phase = 'warning';
         message = 'warning';
-        deadline = now + 450;
+        deadline = now + 650;
         render();
       } else if (phase === 'warning') {
         phase = 'strike';
@@ -181,6 +191,13 @@ if (works) {
     if (now >= matchEnds) { finish(); return; }
     if (phase === 'strike' && now < deadline) scorePoint('hit', now);
     else scorePoint(phase === 'strike' ? 'late' : 'early', now);
+  }
+  function attack() {
+    if (!running || pausedAt || phase === 'result') return;
+    const now = performance.now();
+    if (now >= matchEnds) { finish(); return; }
+    if (phase === 'warning' && now < deadline) scorePoint('attackHit', now);
+    else scorePoint(phase === 'waiting' ? 'blocked' : 'exposed', now);
   }
   function start() {
     cancelAnimationFrame(frame);
@@ -207,11 +224,15 @@ if (works) {
   });
   startButton.addEventListener('click', start);
   parryButton.addEventListener('click', parry);
+  attackButton.addEventListener('click', attack);
   closeButton.addEventListener('click', () => dialog.close());
   dialog.addEventListener('keydown', event => {
-    if (event.code !== 'Space' || event.target === closeButton || event.target === startButton || event.target === resumeButton) return;
+    if (event.ctrlKey || event.metaKey || event.altKey || event.isComposing) return;
+    if (!['Space', 'KeyJ'].includes(event.code) || event.target === closeButton || event.target === startButton || event.target === resumeButton) return;
     event.preventDefault();
-    if (!event.repeat) parry();
+    if (event.repeat) return;
+    if (event.code === 'KeyJ') attack();
+    else parry();
   });
   dialog.addEventListener('close', () => {
     cancelAnimationFrame(frame);
