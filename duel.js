@@ -1,3 +1,4 @@
+import { playSound, stopCharge, registerSoundToggle } from './sounds.js?v=sfx-1';
 const works = document.querySelector('#works, main.works');
 if (works) {
   const words = {
@@ -86,7 +87,7 @@ if (works) {
   dialog.className = 'duel-dialog';
   dialog.setAttribute('aria-labelledby', 'duel-title');
   dialog.setAttribute('aria-describedby', 'duel-rules');
-  dialog.innerHTML = `<button class="duel-close" type="button">×</button>
+  dialog.innerHTML = `<button class="duel-close" type="button">×</button><button class="duel-sound-toggle" type="button"></button>
     <p class="duel-eyebrow" data-duel-text="kicker"></p><h2 id="duel-title" data-duel-text="title"></h2>
     <p id="duel-rules" data-duel-text="rules"></p>
     <div class="duel-key-hints"><span><kbd>J</kbd> <span data-duel-text="attack"></span></span><span><kbd data-duel-text="space"></kbd> <span data-duel-text="parry"></span></span></div>
@@ -99,6 +100,7 @@ if (works) {
     <p class="duel-message" role="status" aria-live="polite"></p>
     <div class="duel-controls"><button type="button" class="duel-start duel-button"></button><button type="button" class="duel-attack duel-button" data-duel-text="attack" aria-keyshortcuts="j" hidden></button><button type="button" class="duel-parry duel-button" data-duel-text="parry" aria-keyshortcuts="Space" hidden></button><button type="button" class="duel-resume duel-button" data-duel-text="resume" hidden></button></div>`;
   document.body.append(dialog);
+  registerSoundToggle(dialog.querySelector('.duel-sound-toggle'));
   const arena = dialog.querySelector('.duel-arena');
   const startButton = dialog.querySelector('.duel-start');
   const parryButton = dialog.querySelector('.duel-parry');
@@ -136,9 +138,11 @@ if (works) {
     arena.dataset.outcome = message;
   }
   function finish() {
+    stopCharge();
     running = false;
     phase = 'ended';
     message = yourScore === rivalScore ? 'draw' : yourScore > rivalScore ? 'win' : 'lose';
+    playSound(message === 'win' ? 'victory' : 'paper');
     cancelAnimationFrame(frame);
     render();
     startButton.focus({ preventScroll: true });
@@ -150,6 +154,8 @@ if (works) {
     render();
   }
   function scorePoint(outcome, now) {
+    stopCharge();
+    playSound(outcome === 'hit' || outcome === 'attackHit' ? 'success' : 'miss');
     if (outcome === 'hit' || outcome === 'attackHit') yourScore++;
     else rivalScore++;
     phase = 'result';
@@ -170,8 +176,11 @@ if (works) {
         phase = 'warning';
         message = 'warning';
         deadline = now + 650;
+        playSound('charge');
         render();
       } else if (phase === 'warning') {
+        stopCharge();
+        playSound('swing');
         phase = 'strike';
         message = 'strike';
         deadline = now + 650;
@@ -189,6 +198,7 @@ if (works) {
     if (!running || pausedAt || phase === 'result') return;
     const now = performance.now();
     if (now >= matchEnds) { finish(); return; }
+    playSound('guard');
     if (phase === 'strike' && now < deadline) scorePoint('hit', now);
     else scorePoint(phase === 'strike' ? 'late' : 'early', now);
   }
@@ -196,10 +206,13 @@ if (works) {
     if (!running || pausedAt || phase === 'result') return;
     const now = performance.now();
     if (now >= matchEnds) { finish(); return; }
+    playSound('swing');
     if (phase === 'warning' && now < deadline) scorePoint('attackHit', now);
     else scorePoint(phase === 'waiting' ? 'blocked' : 'exposed', now);
   }
   function start() {
+    stopCharge();
+    playSound('guard');
     cancelAnimationFrame(frame);
     yourScore = 0;
     rivalScore = 0;
@@ -227,6 +240,7 @@ if (works) {
   attackButton.addEventListener('click', attack);
   closeButton.addEventListener('click', () => dialog.close());
   dialog.addEventListener('keydown', event => {
+    if (event.target.closest('[data-sfx-toggle]')) return;
     if (event.ctrlKey || event.metaKey || event.altKey || event.isComposing) return;
     if (!['Space', 'KeyJ'].includes(event.code) || event.target === closeButton || event.target === startButton || event.target === resumeButton) return;
     event.preventDefault();
@@ -235,6 +249,7 @@ if (works) {
     else parry();
   });
   dialog.addEventListener('close', () => {
+    stopCharge();
     cancelAnimationFrame(frame);
     running = false;
     pausedAt = 0;
@@ -243,6 +258,7 @@ if (works) {
   document.addEventListener('visibilitychange', () => {
     if (document.hidden && running && !pausedAt) {
       pausedAt = performance.now();
+      stopCharge();
       cancelAnimationFrame(frame);
       render();
     }
@@ -255,6 +271,7 @@ if (works) {
     pausedAt = 0;
     render();
     parryButton.focus();
+    if (phase === 'warning') playSound('charge');
     frame = requestAnimationFrame(tick);
   });
   new MutationObserver(render).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });

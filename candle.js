@@ -125,6 +125,7 @@ function changeFlame() {
   everLit = everLit || lit;
   paint();
   if (lit) setMusicPlaying(true);
+  document.dispatchEvent(new CustomEvent('site-sound', { detail: lit ? 'ignite' : 'extinguish' }));
 }
 audio.addEventListener('loadedmetadata', positionAudio);
 audio.addEventListener('playing', scheduleLoop);

@@ -73,8 +73,9 @@ if(videoDialog){
  if(videoTrigger)videoTrigger.addEventListener('click',()=>videoDialog.showModal());
 }
 
-await import('./candle.js?v=candle-4');
-await import('./duel.js?v=duel-2');
+await import('./candle.js?v=sfx-1');
+await import('./sounds.js?v=sfx-1');
+await import('./duel.js?v=sfx-1');
 if (singlePageSite) {
  const { initFilmView } = await import('./film-view.js?v=film-1');
  initFilmView(() => applyLanguage(currentLanguage));

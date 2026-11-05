@@ -1,0 +1,11 @@
+.sound-effects-toggle,.duel-sound-toggle {
+  min-height: 32px; padding: 5px 8px; border: 1px solid #886036;
+  border-radius: 4px; background: #ead3a6; color: #4a301a;
+  font: 12px/1.2 'Cinzel',serif; white-space: nowrap;
+}
+.sound-effects-toggle[aria-pressed="false"],.duel-sound-toggle[aria-pressed="false"] { opacity: .65; }
+.duel-sound-toggle { position: absolute; top: 10px; left: 12px; }
+.duel-dialog .duel-eyebrow { margin-top: 23px; }
+@media(max-width:640px) {
+  .sound-effects-toggle { padding: 4px 5px; font-size: 11px; }
+}
