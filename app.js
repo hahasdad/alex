@@ -73,31 +73,5 @@ if(videoDialog){
  if(videoTrigger)videoTrigger.addEventListener('click',()=>videoDialog.showModal());
 }
 
-const musicPlayer=document.createElement('section');
-musicPlayer.className='music-player';
-musicPlayer.setAttribute('aria-label','Background music player');
-musicPlayer.innerHTML='<audio class="music-audio" src="assets/greensleeves.mp3" preload="metadata" autoplay loop></audio><button class="music-toggle" type="button" aria-pressed="false" aria-label="Play Greensleeves"><span class="music-icon" aria-hidden="true">♪</span><span class="music-action">PLAY</span></button><span class="music-title">Greensleeves · 绿袖子</span><label class="music-volume-label"><span class="sr-only">Music volume</span><input class="music-volume" type="range" min="0" max="1" step="0.05" value="1" aria-label="Music volume"></label>';
-document.body.appendChild(musicPlayer);
-const musicAudio=musicPlayer.querySelector('.music-audio');
-const musicToggle=musicPlayer.querySelector('.music-toggle');
-const musicAction=musicPlayer.querySelector('.music-action');
-const musicVolume=musicPlayer.querySelector('.music-volume');
-const savedVolumeValue=localStorage.getItem('bgm-volume');
-const savedVolume=savedVolumeValue===null?NaN:Number(savedVolumeValue);
-musicAudio.volume=Number.isFinite(savedVolume)&&savedVolume>=0&&savedVolume<=1?savedVolume:1;
-musicVolume.value=String(musicAudio.volume);
-const musicEndTrim=0.5;
-musicAudio.addEventListener('timeupdate',()=>{if(Number.isFinite(musicAudio.duration)&&musicAudio.currentTime>=musicAudio.duration-musicEndTrim){musicAudio.currentTime=0;if(!musicAudio.paused)musicAudio.play().catch(()=>{});}});
-const updateMusicButton=()=>{const playing=!musicAudio.paused;musicPlayer.classList.toggle('is-playing',playing);musicToggle.setAttribute('aria-pressed',String(playing));musicToggle.setAttribute('aria-label',currentLanguage==='zh'?(playing?'暂停绿袖子':'播放绿袖子'):(playing?'Pause Greensleeves':'Play Greensleeves'));musicAction.textContent=currentLanguage==='zh'?(playing?'暂停':'播放'):(playing?'PAUSE':'PLAY');};
-musicToggle.addEventListener('click',()=>{if(musicAudio.paused){musicAudio.play().catch(()=>{});}else{musicAudio.pause();}updateMusicButton();});
-musicVolume.addEventListener('input',()=>{musicAudio.volume=Number(musicVolume.value);localStorage.setItem('bgm-volume',musicVolume.value);});
-musicAudio.addEventListener('play',updateMusicButton);
-musicAudio.addEventListener('pause',updateMusicButton);
-const attemptMusicStart=()=>musicAudio.play().catch(updateMusicButton);
-musicAudio.addEventListener('loadedmetadata',()=>{const savedTime=Number(sessionStorage.getItem('bgm-time'));if(Number.isFinite(savedTime)&&savedTime>0)musicAudio.currentTime=savedTime%musicAudio.duration;attemptMusicStart();});
-const startMusicOnFirstInteraction=event=>{if(event.target.closest('.music-toggle'))return;if(musicAudio.paused)attemptMusicStart();};
-document.addEventListener('pointerdown',startMusicOnFirstInteraction,{once:true,capture:true});
-document.addEventListener('keydown',startMusicOnFirstInteraction,{once:true,capture:true});
-attemptMusicStart();
-window.addEventListener('pagehide',()=>{sessionStorage.setItem('bgm-time',String(musicAudio.currentTime||0));sessionStorage.setItem('bgm-playing',String(!musicAudio.paused));});
+await import('./candle.js?v=candle-2');
 })();
